@@ -89,17 +89,20 @@ Interact with the dashboard:
 
 
 📊 Sample Output
+
 Carbon Emissions: Bar chart showing CO₂ emission per model.
 Agent Recommendations: Shows high-emission models and recommendations.
 Real-time CPU/RAM: Metrics displayed as live numbers and bar charts.
 
 ⚠️ Notes
+
 Ensure monitoring.py is running before viewing real-time CPU/RAM metrics.
 CSV data (emissions_data.csv) is used for sample emissions—replace with your models for actual data.
 Dashboard is interactive, with hover effects and fade-themed background.
 
 
 🌟 Future Enhancements
+
 🔹 Automate carbon-saving actions based on agent recommendations.
 🔹 Integrate with Kubernetes or AWS/Azure for workflow scaling.
 🔹 Add historical trends and alerts for high-energy models.
