@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from prometheus_api_client import PrometheusConnect
+import requests
+import streamlit.components.v1 as components
 import matplotlib.pyplot as plt
 
 # Title
@@ -29,22 +30,73 @@ else:
 # Section 3: Real-time Resource Usage
 st.header("3️⃣ Real-time CPU/RAM Usage (Last 1 min)")
 
-prom = PrometheusConnect(url="http://localhost:8000", disable_ssl=True)
+# Fetch Prometheus exporter text metrics directly from the monitoring exporter
+REFRESH_SECONDS = 5
+PROM_METRICS_URL = "http://localhost:8000"  # monitoring.py uses start_http_server(8000)
 
-cpu_query = 'cpu_usage_percent'
-ram_query = 'ram_usage_percent'
+def parse_prometheus_text_metrics(text):
+    cpu = None
+    ram = None
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("cpu_usage_percent"):
+            parts = line.split()
+            if len(parts) >= 2:
+                try:
+                    cpu = float(parts[-1])
+                except ValueError:
+                    cpu = None
+        elif line.startswith("ram_usage_percent"):
+            parts = line.split()
+            if len(parts) >= 2:
+                try:
+                    ram = float(parts[-1])
+                except ValueError:
+                    ram = None
+    return cpu, ram
 
-try:
-    cpu_data = prom.get_current_metric_value(cpu_query)
-    ram_data = prom.get_current_metric_value(ram_query)
+def fetch_metrics(url):
+    try:
+        resp = requests.get(url, timeout=2)
+        resp.raise_for_status()
+        cpu, ram = parse_prometheus_text_metrics(resp.text)
+        # some exporters expose at /metrics; try fallback if needed
+        if (cpu is None or ram is None) and url.endswith("/") is False:
+            # try /metrics
+            try:
+                resp2 = requests.get(url.rstrip('/') + '/metrics', timeout=2)
+                resp2.raise_for_status()
+                cpu2, ram2 = parse_prometheus_text_metrics(resp2.text)
+                cpu = cpu or cpu2
+                ram = ram or ram2
+            except Exception:
+                pass
+        if cpu is None or ram is None:
+            raise RuntimeError("Required metrics not found in response.")
+        return cpu, ram, None
+    except Exception as e:
+        return None, None, str(e)
 
-    st.write(f"CPU Usage: {cpu_data[0]['value'][1]} %")
-    st.write(f"RAM Usage: {ram_data[0]['value'][1]} %")
+cpu_val, ram_val, error = fetch_metrics(PROM_METRICS_URL)
 
-    fig, ax = plt.subplots()
-    ax.bar(["CPU", "RAM"], [float(cpu_data[0]['value'][1]), float(ram_data[0]['value'][1])])
-    ax.set_ylabel("Usage %")
-    st.pyplot(fig)
-
-except Exception as e:
+if error:
     st.warning("Real-time metrics unavailable. Is monitoring.py running?")
+    with st.expander("Metrics fetch details"):
+        st.write(error)
+else:
+    col_cpu, col_ram = st.columns(2)
+    col_cpu.metric("CPU Usage (%)", f"{cpu_val:.1f} %")
+    col_ram.metric("RAM Usage (%)", f"{ram_val:.1f} %")
+
+# lightweight auto-refresh: reload the page every REFRESH_SECONDS seconds
+js = f"""
+<script>
+if (!window.__streamlit_autoreload_set) {{
+  window.__streamlit_autoreload_set = true;
+  setTimeout(function() {{ window.location.reload(); }}, {REFRESH_SECONDS * 1000});
+}}
+</script>
+"""
+components.html(js, height=0)
