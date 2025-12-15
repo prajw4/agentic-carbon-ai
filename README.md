@@ -97,7 +97,9 @@ Real-time CPU/RAM: Metrics displayed as live numbers and bar charts.
 ⚠️ Notes
 
 Ensure monitoring.py is running before viewing real-time CPU/RAM metrics.
+
 CSV data (emissions_data.csv) is used for sample emissions—replace with your models for actual data.
+
 Dashboard is interactive, with hover effects and fade-themed background.
 
 
