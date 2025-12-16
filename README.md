@@ -89,6 +89,52 @@ agentic-corbon-ai/
     - 🔹 **Agent Recommendations**: Click to see suggested actions.
     - 🔹 **Real-time CPU/RAM**: Click to monitor system metrics live.
 
+## 🐋 Docker Setup & Usage
+
+### 🚀 Why Docker?
+
+- Simplifies running the project without installing dependencies manually.
+- Ensures consistent environment for anyone who runs the project.
+- Allows running the project instantly anywhere with one command.
+- Shows industry-standard practices (containerization).
+- 📝 **Note**: Including Docker helps streamline the project setup, making it easier for interviewers or collaborators to run and test the dashboard effortlessly.
+
+### 🛠 Running the Dashboard via Docker
+
+1. **Pulling image from Docker Hub**:
+    ```bash
+    docker pull <your-dockerhub-username>/agentic-carbon-ai
+    ```
+2. **Running the project in Docker**:
+    ```bash
+    docker run -p 8501:8501 <your-dockerhub-username>/agentic-carbon-ai
+    ```
+3. **View the dashboard**:
+    Open your browser at `http://localhost:8501`.
+
+### 🏗️ Building the Dashboard Locally with Docker (Optional)
+
+1. **Clone the repo**:
+    ```bash
+    git clone https://github.com/<your-github-username>/agentic-corbon-ai
+    cd agentic-corbon-ai
+    ```
+2. **Build the Docker image**:
+    ```bash
+    docker build -t agentic-carbon-ai .
+    ```
+3. **Run the Docker image**:
+    ```bash
+    docker run -p 8501:8501 agentic-carbon-ai
+    ```
+
+### 🧹 Managing Docker Space (Optional)
+
+To remove local images and save space:
+```bash
+docker rmi agentic-carbon-ai
+```
+
 ## 📊 Sample Output
 
 - **Carbon Emissions**: Bar chart showing CO₂ emission per model.
@@ -104,4 +150,3 @@ agentic-corbon-ai/
 - 🔹 Automate carbon-saving actions based on agent recommendations.
 - 🔹 Integrate with Kubernetes or AWS/Azure for workflow scaling.
 - 🔹 Add historical trends and alerts for high-energy models.
-
