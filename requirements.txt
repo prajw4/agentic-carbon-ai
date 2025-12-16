@@ -1,0 +1,9 @@
+streamlit
+pandas
+matplotlib
+requests
+psutil
+prometheus-client
+codecarbon
+transformers
+torch
