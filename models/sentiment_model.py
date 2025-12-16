@@ -25,7 +25,10 @@ data = {
 }
 
 df = pd.DataFrame(data)
-df.to_csv("emissions_data.csv", index=False)
+# write to data folder
+import os
+out_path = os.path.join("data", "emissions_data.csv")
+df.to_csv(out_path, index=False)
 
 print("Sentiment Result:", result)
 print("CO2 Emissions (kg):", emissions)

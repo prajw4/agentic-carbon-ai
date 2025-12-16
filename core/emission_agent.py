@@ -38,7 +38,8 @@ class CarbonEmissionAgent:
 
 
 if __name__ == "__main__":
-    agent = CarbonEmissionAgent("emissions_data.csv")
+    # default to data/emissions_data.csv in the reorganized layout
+    agent = CarbonEmissionAgent("data/emissions_data.csv")
     agent.observe()
     agent.analyze()
     agent.decide()

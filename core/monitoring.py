@@ -1,15 +1,3 @@
-"""Compatibility wrapper for existing workflows that run
-`python monitoring.py` from the repository root.
-
-This file delegates to `core/monitoring.py`. Importing the module
-will start the Prometheus exporter and the monitoring loop (same
-behavior as running `python core/monitoring.py`).
-
-If you prefer not to use this wrapper, run the new path directly:
-  python core/monitoring.py
-"""
-
-from core import monitoring  # noqa: F401  (module side-effects: starts server loop)
 import time
 import psutil
 from prometheus_client import start_http_server, Gauge

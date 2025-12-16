@@ -9,7 +9,8 @@ st.title("Agentic AI Carbon & Resource Dashboard")
 
 # Section 1: Carbon Emissions per Model
 st.header("1️⃣ Carbon Emissions")
-df = pd.read_csv("emissions_data.csv")
+# load emissions data from data/ folder
+df = pd.read_csv("data/emissions_data.csv")
 st.dataframe(df)
 
 # Bar chart

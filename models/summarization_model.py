@@ -24,8 +24,8 @@ summary = summarizer(text, max_length=50, min_length=25, do_sample=False)
 # Stop tracking
 emissions = tracker.stop()
 
-# Save or append emission data
-file_path = "emissions_data.csv"
+# Save or append emission data (store in data/ folder)
+file_path = os.path.join("data", "emissions_data.csv")
 
 new_data = pd.DataFrame({
     "Model": ["Text Summarization"],
