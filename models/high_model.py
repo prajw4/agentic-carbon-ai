@@ -1,4 +1,4 @@
-# models/sentiment_model.py
+# models/high_model.py
 from transformers import pipeline
 from codecarbon import EmissionsTracker
 import pandas as pd
@@ -17,18 +17,23 @@ def update_emissions_csv(model_name, co2_kg):
         df = pd.DataFrame([{'Model': model_name, 'CO2_Emissions_kg': co2_kg}])
     df.to_csv(CSV_PATH, index=False)
 
-def run_sentiment_model():
-    tracker = EmissionsTracker(project_name="Sentiment_Model")
+def run_high_carbon_model():
+    tracker = EmissionsTracker(project_name="High_Carbon_QA_Model")
     tracker.start()
 
-    classifier = pipeline("sentiment-analysis")
-    sample_text = "Agentic AI systems are transforming modern software development."
-    output = classifier(sample_text)
+    qa_pipeline = pipeline("question-answering")
+    sample_context = (
+        "Agentic AI systems are transforming how autonomous decision-making is implemented "
+        "in modern software. These systems can reason, plan, and take actions based on "
+        "environmental feedback."
+    )
+    question = "How are Agentic AI systems transforming modern software?"
+    result = qa_pipeline(question=question, context=sample_context)
 
     tracker.stop()
     co2_emitted = tracker.final_emissions
-    update_emissions_csv("Sentiment Analysis", co2_emitted)
-    return {"model": "Sentiment Analysis", "result": output, "co2_kg": co2_emitted}
+    update_emissions_csv("High Carbon QA Model", co2_emitted)
+    return {"model": "High Carbon QA Model", "result": result, "co2_kg": co2_emitted}
 
 if __name__ == "__main__":
-    print(run_sentiment_model())
+    print(run_high_carbon_model())

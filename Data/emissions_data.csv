@@ -1,3 +1,4 @@
 Model,CO2_Emissions_kg
-Sentiment Analysis,3.746027757919505e-05
-Text Summarization,1.490934950499148e-06
+Sentiment Analysis,0.0056010287290862
+Text Summarization,0.0404003497932958
+Question Answering,2.591599549107505e-05

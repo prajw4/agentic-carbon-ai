@@ -1,152 +1,144 @@
-# 🌱 Agentic AI: Carbon Footprint Dashboard for AI Models
+# 🌱 Agentic AI: Carbon Footprint & Resource Monitoring Dashboard
 
 ## 📌 Project Overview
 
-This project is an interactive Streamlit dashboard designed to help businesses:
+This project is a Dockerized, agent-driven AI sustainability dashboard that analyzes the carbon footprint of AI workloads and monitors real-time system resource usage.
 
-- 🌍 Monitor the carbon footprint of their AI models
-- 🤖 Get agent recommendations
-- 📊 Track real-time system performance metrics (CPU and RAM usage)
-
-The dashboard is eco-friendly, interactive, and visually appealing, providing actionable insights to reduce energy consumption and CO₂ emissions.
+It helps developers and organizations understand the environmental impact of AI models, receive intelligent sustainability recommendations, and monitor system performance in a single interactive interface. The entire application is containerized using Docker for easy setup, reproducibility, and interview-ready demonstrations.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-### 🌿 Carbon Emissions Monitoring
+### 🌿 Carbon Emissions Analysis
+- Tracks CO₂ emissions for multiple AI tasks:
+  - Sentiment Analysis
+  - Text Summarization
+  - Question Answering
+- Displays emissions using interactive bar charts.
+- Identifies high-emission models dynamically based on runtime data rather than hardcoded labels.
 
-- Tracks per-model CO₂ emissions for AI models like sentiment analysis and text summarization.
-- Displays bar charts showing emissions for each model.
-- Highlights highest-emission models to identify energy-intensive workflows.
+---
 
-### 🤖 Agent Recommendations
+### 🤖 Agentic AI Insights
+- Uses an AI agent built with LangChain and a local Hugging Face model (Flan-T5).
+- Analyzes emission data programmatically and generates sustainability recommendations.
+- Suggests optimization strategies such as:
+  - Using smaller or distilled models
+  - Running workloads during off-peak hours
+  - Applying pruning and quantization techniques
+- Agent output is cached to ensure fast dashboard interaction.
 
-- Automatically provides actionable recommendations for high-emission models.
-- Suggests running jobs during off-peak hours or using smaller/distilled models.
-- Shows recommendations interactively on the dashboard.
+---
 
-### 💻 Real-time CPU and RAM Monitoring
+### 💻 Real-time CPU & RAM Monitoring
+- Tracks live CPU and memory usage using psutil and Prometheus.
+- Displays real-time metrics directly in the dashboard.
+- Monitoring runs automatically in the background when the application starts.
 
-- Tracks live CPU and RAM usage using Prometheus.
-- Displays metrics and visual charts for easy monitoring.
-- Helps optimize AI workloads and system performance.
+---
 
-### 🎨 Interactive & Minimal Dashboard
+### 🎨 Interactive Streamlit Dashboard
+- Clean and minimal user interface built with Streamlit.
+- Optimized with caching for fast load times and smooth interaction.
+- Designed for demos, evaluations, and technical interviews.
 
-- Dashboard background has a fade-themed gradient, giving it a professional look.
+---
 
-## 🛠️ Technical Stack
+## 🛠️ Tech Stack
 
-- **Python** – Backend logic and data processing
-- **Streamlit** – Interactive dashboard UI
-- **Pandas** – Data handling
-- **Matplotlib** – Charts and visualization
-- **CodeCarbon** – CO₂ emissions tracking
-- **Prometheus** – Real-time CPU/RAM metrics
-- **Requests** – Fetching Prometheus metrics
-- **Streamlit Session State** – Managing interactive UI
+- Python – Core application logic
+- Streamlit – Interactive dashboard UI
+- Pandas – Data processing
+- Matplotlib – Data visualization
+- CodeCarbon – Carbon emission tracking
+- LangChain – AI agent orchestration
+- Transformers (Hugging Face) – Local LLM (Flan-T5)
+- Prometheus & psutil – Real-time CPU/RAM monitoring
+- Docker – Containerization and deployment
 
 ---
 
 ## 📂 Project Structure
 
-```
-agentic-corbon-ai/
+C:.
+│   .gitignore
+│   Dockerfile
+│   emissions.csv
+│   emissions.csv.bak
+│   README.md
+│   requirements.txt
 │
-├─ dashboard.py         # 🌟 Main Streamlit dashboard with interactive cards
-├─ monitoring.py        # 📡 Prometheus exporter for CPU/RAM metrics
-├─ emissions_data.csv   # 📝 Sample data for AI model emissions
-├─ README.md            # 📖 Project documentation
-└─ requirements.txt     # 📦 Required Python packages
-```
+├── agents
+│   ├── carbon_agent.py        # AI agent logic for sustainability insights
+│   └── __init__.py
+│
+├── core
+│   └── monitoring.py          # Prometheus-based CPU/RAM monitoring
+│
+├── Dashboard
+│   └── dashboard.py           # Streamlit dashboard UI
+│
+├── Data
+│   ├── emissions.csv
+│   ├── emissions.csv.bak
+│   └── emissions_data.csv     # Carbon emission dataset
+│
+└── models
+    ├── sentiment_model.py     # Sentiment analysis model
+    ├── summarization_model.py # Text summarization model
+    └── high_model.py          # Question answering / third model
 
-### 🚀 How to Run the Project
+---
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/<your-username>/agentic-corbon-ai.git
-    cd agentic-corbon-ai
-    ```
+## 🐳 Docker Usage
 
-2. **Install required packages**:
-    ```bash
-    pip install -r requirements.txt
-    ```
 
-3. **Start the Prometheus monitoring server** (for real-time CPU/RAM metrics):
-    ```bash
-    python monitoring.py
-    ```
+### Pull & Run from Docker Hub
 
-4. **Run the Streamlit dashboard**:
-    ```bash
-    streamlit run dashboard.py
-    ```
+docker pull prajwal1504/carbon-ai-dashboard:latest
+docker run -p 8501:8501 prajwal1504/carbon-ai-dashboard:latest
 
-5. **Interact with the dashboard**:
-    - 🔹 **Carbon Emissions**: Click to view per-model CO₂ charts.
-    - 🔹 **Agent Recommendations**: Click to see suggested actions.
-    - 🔹 **Real-time CPU/RAM**: Click to monitor system metrics live.
+Then open the dashboard at:
+http://localhost:8501
 
-## 🐋 Docker Setup & Usage
+---
 
-### 🚀 Why Docker?
+### Build & Run Locally (Optional)
 
-- Simplifies running the project without installing dependencies manually.
-- Ensures consistent environment for anyone who runs the project.
-- Allows running the project instantly anywhere with one command.
-- Shows industry-standard practices (containerization).
-- 📝 **Note**: Including Docker helps streamline the project setup, making it easier for interviewers or collaborators to run and test the dashboard effortlessly.
+git clone https://github.com/prajwal1504/agentic-corbon-ai.git
+cd agentic-corbon-ai
 
-### 🛠 Running the Dashboard via Docker
+docker build -t carbon-ai-dashboard .
+docker run -p 8501:8501 carbon-ai-dashboard
 
-1. **Pulling image from Docker Hub**:
-    ```bash
-    docker pull <your-dockerhub-username>/agentic-carbon-ai
-    ```
-2. **Running the project in Docker**:
-    ```bash
-    docker run -p 8501:8501 <your-dockerhub-username>/agentic-carbon-ai
-    ```
-3. **View the dashboard**:
-    Open your browser at `http://localhost:8501`.
+---
 
-### 🏗️ Building the Dashboard Locally with Docker (Optional)
+## 📊 Dashboard Output
 
-1. **Clone the repo**:
-    ```bash
-    git clone https://github.com/<your-github-username>/agentic-corbon-ai
-    cd agentic-corbon-ai
-    ```
-2. **Build the Docker image**:
-    ```bash
-    docker build -t agentic-carbon-ai .
-    ```
-3. **Run the Docker image**:
-    ```bash
-    docker run -p 8501:8501 agentic-carbon-ai
-    ```
+- Carbon Emissions: Bar chart comparing emissions across AI tasks
+- Agent Insights: AI-generated sustainability recommendations
+- CPU & RAM Usage: Live system performance metrics
 
-### 🧹 Managing Docker Space (Optional)
+---
 
-To remove local images and save space:
-```bash
-docker rmi agentic-carbon-ai
-```
+## ⚠️ Important Notes
 
-## 📊 Sample Output
+- Carbon emissions depend on runtime behavior and system resources, not model names.
+- CPU and RAM metrics reflect the host system where Docker is running.
+- Initial AI agent execution may take a few seconds due to model inference.
 
-- **Carbon Emissions**: Bar chart showing CO₂ emission per model.
-- **Agent Recommendations**: Shows high-emission models and recommendations.
-- **Real-time CPU/RAM**: Metrics displayed as live numbers and bar charts.
+---
 
-⚠️ **Notes**
-- Ensure `monitoring.py` is running before viewing real-time CPU/RAM metrics.
-- Sample CSV data (`emissions_data.csv`) is used for emissions—replace with your models for actual data.
-- Dashboard is interactive, with hover effects and fade-themed background.
+## 🌟 Future Enhancements
 
-🌟 **Future Enhancements**
-- 🔹 Automate carbon-saving actions based on agent recommendations.
-- 🔹 Integrate with Kubernetes or AWS/Azure for workflow scaling.
-- 🔹 Add historical trends and alerts for high-energy models.
+- Historical carbon emission trends
+- Automated alerts for high-emission workloads
+- Kubernetes-based deployment for scalability
+- Cloud integration (AWS, GCP, Azure)
+
+---
+
+## 🎓 Summary
+
+This project analyzes the carbon footprint of AI workloads, monitors real-time system resources, and provides AI-driven sustainability insights through a Dockerized Streamlit dashboard designed for reproducibility and easy evaluation.

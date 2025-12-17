@@ -1,9 +1,22 @@
-streamlit
-pandas
-matplotlib
+# Core data & utilities
+pandas>=2.0.0
 requests
 psutil
-prometheus-client
+matplotlib
+
+# Carbon & monitoring
 codecarbon
-transformers
+prometheus-client
+
+# ML / LLM
 torch
+transformers>=4.38.0
+
+# LangChain (LOCKED – do not upgrade blindly)
+langchain==0.3.19
+langchain-core==0.3.80
+langchain-community==0.3.18
+langchain-text-splitters==0.3.11
+
+# Optional UI
+streamlit
