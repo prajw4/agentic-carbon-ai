@@ -93,6 +93,13 @@ C:.
 
 ## 🐳 Docker Usage
 
+# Docker Hub Repository :-
+
+The Docker image for this project is publicly available on Docker Hub:
+
+https://hub.docker.com/r/prajwal1504/carbon-ai-dashboard
+
+
 
 ### Pull & Run from Docker Hub
 
